@@ -25,6 +25,32 @@
                 'graph_groupbys': ['scheduled_date:day', 'vehicle_categories'],
             }</field>
       </record>
+
+      
+
+  
+      <record id="stock_picking_batch_gantt_view" model="ir.ui.view">
+            <field name="name">stock.picking.batch.gantt</field>
+            <field name="model">stock.picking.batch</field>
+            <field name="arch" type="xml">
+                <gantt 
+                    date_start="create_date" 
+                    date_stop="scheduled_date"
+                    default_group_by="vehicle_ids,stock_dock_id"
+                    color="id"
+                    decoration-info="state == 'draft'"
+                    scales="day,week,month,year"
+                    default_scale="week"
+                    thumbnails="{'vehicle_ids': 'image_128'}"
+                >
+                    <field name="state"/>
+                    
+                </gantt>
+            </field>
+      </record>
+
+
+      
     
       <record id="stock_picking_batch_graph" model="ir.ui.view">
             <field name="name">stock.picking.batch.graph</field>
@@ -39,26 +65,8 @@
             </field>
       </record>
 
-      <!-- gantt view -->
-    <record id="view_stock_picking_batch_gantt" model="ir.ui.view">
-      <field name="name">stock.picking.batch.gantt</field>
-      <field name="model">stock.picking.batch</field>
-      <field name="priority">10</field>
-      <field name="arch" type="xml">
-          <gantt date_start="scheduled_date"
-              date_stop="scheduled_date"
-              default_scale="week"
-              scales="day,week,month,year"
-              string="Batch Gantt View"
-              color="dock"
-              decoration-info="state in ['draft', 'done']"
-              pill_label = "True"
-              default_group_by="dock,vehicle">
-              <field name="state"/>
-              <field name="vehicle_categories"/>
-          </gantt>
-      </field>
-  </record>
+      
+    
             
             
 </odoo>

@@ -8,13 +8,14 @@ class StockPickingBatch(models.Model):
     
     vehicle_ids = fields.Many2one('fleet.vehicle', string='vehicles')
     vehicle_categories = fields.Many2one('fleet.vehicle.model.category', string='Vehicle Category')
-#     stock_picking_id = fields.Many2one('stock.picking', string='Stock Picking')
+
     stock_dock_id = fields.Many2one('stock.dock')
     lines = fields.Integer(compute='_compute_lines',store=True)
     transfer = fields.Integer(compute='_compute_transfers',store=True)
 
     weight = fields.Float(string='Weight (kg)', compute="_compute_progressbar", store=True)
     volume = fields.Float(string='Volume (m^3)', compute="_compute_progressbar", store=True)
+    date = fields.Date()
 
     @api.depends('picking_ids')
     def _compute_transfers(self):

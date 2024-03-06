@@ -9,5 +9,5 @@
       'views/stock_picking_batch_views.xml',
       'views/stock_picking_views.xml',
     ],
-    "auto_install": True,
+ 
 }
