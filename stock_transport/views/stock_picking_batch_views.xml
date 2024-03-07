@@ -8,8 +8,19 @@
                         <field name='stock_dock_id'/>
                         <field name="vehicle_ids"/>
                         <field name='vehicle_categories'/>
-                        <field name="weight" widget="progressbar" invisible = "not vehicle_categories"/>
-                        <field name="volume" widget="progressbar" invisible = "not vehicle_categories"/>
+                        <div style="display: flex; flex-direction: column; align-items: right;">
+                              <div style="display: flex; justify-content: space-between; width: 200px;">
+                                  <label for='weight' string='Weight'/>
+                                  <field name='weight_raw' />
+                                  <field name="weight" widget="progressbar" invisible="not vehicle_categories" />
+                              </div>
+                              <div style="display: flex; justify-content: space-between; width: 200px; margin-top: 10px;">
+                                  <label for='volume' string='Volume'/>
+                                  <field name='volume_raw' />
+                                  <field name="volume" widget="progressbar" invisible="not vehicle_categories" />
+                              </div>
+                        </div>
+                        
                   </xpath>
                   
             </field>

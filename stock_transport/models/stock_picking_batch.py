@@ -9,6 +9,8 @@ class StockPickingBatch(models.Model):
     vehicle_ids = fields.Many2one('fleet.vehicle', string='vehicles')
     vehicle_categories = fields.Many2one('fleet.vehicle.model.category', string='Vehicle Category')
 
+    weight_raw = fields.Float(string='Weight (kg)', default=0, compute="_compute_progressbar", store=True)
+    volume_raw = fields.Float(string='volume (m^3)', default=0, compute="_compute_progressbar", store=True)
     stock_dock_id = fields.Many2one('stock.dock')
     lines = fields.Integer(compute='_compute_lines',store=True)
     transfer = fields.Integer(compute='_compute_transfers',store=True)
@@ -43,12 +45,15 @@ class StockPickingBatch(models.Model):
             temp_w = sum((line.total_wh_weight) for line in record.picking_ids) 
             temp_v = sum((line.total_wh_volume) for line in record.picking_ids)
 
-        if self.vehicle_categories.max_weight > 0:
-            self.weight = (temp_w/self.vehicle_categories.max_weight) * 100
-        else:
-            self.weight = 0
+            record.weight_raw = temp_w
+            record.volume_raw = temp_v
 
-        if self.vehicle_categories.max_volume > 0:
-            self.volume = (temp_v/self.vehicle_categories.max_volume) * 100
-        else:
-            self.volume = 0
+            if record.vehicle_categories.max_weight > 0:
+                  record.weight = (temp_w/record.vehicle_categories.max_weight) * 100
+            else:
+                  record.weight = 0
+
+            if record.vehicle_categories.max_volume > 0:
+                  record.volume = (temp_v/record.vehicle_categories.max_volume) * 100
+            else:
+                  record.volume = 0
