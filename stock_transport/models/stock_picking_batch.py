@@ -19,6 +19,16 @@ class StockPickingBatch(models.Model):
     volume = fields.Float(string='Volume (m^3)', compute="_compute_progressbar", store=True)
     date = fields.Date()
 
+
+    @api.depends('vehicle_categories')
+    def _compute_display_name(self):
+        for record in self:
+            name = record.vehicle_categories.name
+            name = f"{record.name} ({record.vehicle_categories.max_weight} Kg), ({record.vehicle_categories.max_volume} m^3)"
+            record.display_name = name
+
+
+
     @api.depends('picking_ids')
     def _compute_transfers(self):
         for record in self:
